@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -32,16 +33,27 @@ class KotaFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupView()
+        setupListener()
         setupRecyclerView()
         setupObserver()
-        viewModel.titleBar.postValue(getString(R.string.select_city))
         binding.editSearch.setOnClickListener(this)
+    }
+
+    private fun setupListener() {
+        binding.editSearch.doAfterTextChanged {
+            kotaadapter.filter.filter( it.toString() )
+        }
+    }
+
+    private fun setupView() {
+        viewModel.titleBar.postValue(getString(R.string.select_city))
     }
 
     private fun setupRecyclerView() {
         kotaadapter = KotaAdapter(arrayListOf(), object : KotaAdapter.OnAdapterListener{
             override fun onClick(results: KotaResponse.KotaRajaOngkir.DataResult) {
-                Toast.makeText(context, results.city_name, Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_kotaFragment_to_distrikFragment)
             }
         })
         binding.listCity.adapter = kotaadapter
@@ -49,7 +61,6 @@ class KotaFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(view: View?) {
         if (view == binding.editSearch){
-            findNavController().navigate(R.id.action_kotaFragment_to_distrikFragment)
         }
     }
     private fun setupObserver(){
