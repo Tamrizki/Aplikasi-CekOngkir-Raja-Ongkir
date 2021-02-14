@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/kota_navigation"
+    app:startDestination="@id/kotaFragment">
+
+    <fragment
+        android:id="@+id/kotaFragment"
+        android:name="tam.pa.cekongkir.ui.kota.KotaFragment"
+        android:label="fragment_kota"
+        tools:layout="@layout/fragment_kota" >
+        <action
+            android:id="@+id/action_kotaFragment_to_distrikFragment"
+            app:destination="@id/distrikFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/distrikFragment"
+        android:name="tam.pa.cekongkir.ui.distrik.DistrikFragment"
+        android:label="fragment_distrik"
+        tools:layout="@layout/fragment_distrik" />
+</navigation>
