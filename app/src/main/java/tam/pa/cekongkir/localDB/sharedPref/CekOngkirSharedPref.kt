@@ -3,7 +3,7 @@ package tam.pa.cekongkir.localDB.sharedPref
 import android.content.Context
 import android.content.SharedPreferences
 
-private const val PREF_NAME = "cekOngkir.pref"
+private const val PREF_NAME = "cekOngkir.db"
 
 class CekOngkirSharedPref(context: Context) {
 
