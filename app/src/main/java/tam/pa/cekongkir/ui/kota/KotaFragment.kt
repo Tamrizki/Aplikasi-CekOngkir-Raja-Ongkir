@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -44,6 +45,9 @@ class KotaFragment : Fragment(), View.OnClickListener {
         binding.editSearch.doAfterTextChanged {
             kotaadapter.filter.filter( it.toString() )
         }
+        binding.refreshCity.setOnRefreshListener {
+            viewModel.fetchKota()
+        }
     }
 
     private fun setupView() {
@@ -53,7 +57,11 @@ class KotaFragment : Fragment(), View.OnClickListener {
     private fun setupRecyclerView() {
         kotaadapter = KotaAdapter(arrayListOf(), object : KotaAdapter.OnAdapterListener{
             override fun onClick(results: KotaResponse.KotaRajaOngkir.DataResult) {
-                findNavController().navigate(R.id.action_kotaFragment_to_distrikFragment)
+                viewModel.fetchDistrik( results.city_id )
+                findNavController().navigate(
+                        R.id.action_kotaFragment_to_distrikFragment,
+                        bundleOf("city_id" to results.city_id, "city_name" to results.city_name)
+                )
             }
         })
         binding.listCity.adapter = kotaadapter
@@ -67,13 +75,16 @@ class KotaFragment : Fragment(), View.OnClickListener {
         viewModel.kotaResponse.observe(viewLifecycleOwner, Observer {
             when(it){
                 is Resource.Loading ->{
+                    binding.refreshCity.isRefreshing = true
                     Log.d("cityRajaOngkir", "Loading!!!")
                 }
                 is Resource.Success ->{
+                    binding.refreshCity.isRefreshing = false
                     Log.d("cityRajaOngkir", it.data!!.rajaongkir.toString())
                     kotaadapter.setData( it.data.rajaongkir.results )
                 }
                 is Resource.Error ->{
+                    binding.refreshCity.isRefreshing = false
                     Log.d("cityRajaOngkir", "EROORRNYA "+it.message.toString())
                 }
             }

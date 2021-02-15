@@ -1,15 +1,15 @@
 package tam.pa.cekongkir.network.response
 
 class DistrikResponse(
-        val distrikRajaOngkir: DistrikRajaOngkir
+        val rajaongkir: DistrikRajaOngkir
 )  {
     data class DistrikRajaOngkir(
             val query: DataQuery,
             val status: DataStatus,
-            val result: List<DataResult>
+            val results: List<DataResult>
     ){
         data class DataQuery(
-                val key: String
+                val city: String
         )
         data class DataStatus(
                 val code: Int,
