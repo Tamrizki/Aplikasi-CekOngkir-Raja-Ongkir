@@ -14,6 +14,13 @@ class RajaOngkirRepo (
 
     suspend fun fetchDistrik(idKota: String) = api.getSubdistrict(idKota)
 
+    suspend fun fetchCost(origin: String,
+                          originType: String,
+                          destination: String,
+                          destinationType: String,
+                          weight: String,
+                          courier: String) = api.getCost(origin, originType, destination, destinationType, weight, courier)
+
     fun savePref(type: String, id: String, name: String){
         when(type){
             origin -> {

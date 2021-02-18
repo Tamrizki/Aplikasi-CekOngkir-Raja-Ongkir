@@ -22,6 +22,7 @@ class DistrikFragment : Fragment() {
 
     private val viewModel by lazy { ViewModelProvider(requireActivity()).get(KotaViewModel::class.java) }
     private lateinit var binding: FragmentDistrikBinding
+    private val type by lazy { requireActivity().intent.getStringExtra("type") }
     private val id_kota by lazy { requireArguments().getString("city_id") }
     private val name_kota by lazy { requireArguments().getString("city_name") }
     private lateinit var distrikadapter: DistrikAdapter
@@ -44,7 +45,11 @@ class DistrikFragment : Fragment() {
     private fun setupRecyclerview() {
         distrikadapter = DistrikAdapter( arrayListOf(), object : DistrikAdapter.OnDistrikAdapterListener{
             override fun onClick(result: DistrikResponse.DistrikRajaOngkir.DataResult) {
-                Toast.makeText(context, result.city+", "+result.subdistrict_name, Toast.LENGTH_SHORT).show()
+                viewModel.savePref(
+                        type!!,
+                        result.subdistrict_id,
+                        result.subdistrict_name+", "+result.city)
+                requireActivity().finish()
             }
         })
         binding.listSubdistrict.adapter = distrikadapter

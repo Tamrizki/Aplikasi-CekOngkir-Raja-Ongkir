@@ -42,4 +42,8 @@ class KotaViewModel(
             distrikResponse.value = Resource.Error(e.message.toString())
         }
     }
+
+    fun savePref(type: String, id: String, name: String){
+        repository.savePref(type, id, name)
+    }
 }
