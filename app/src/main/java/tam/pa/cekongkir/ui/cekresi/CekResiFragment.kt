@@ -1,19 +1,46 @@
 package tam.pa.cekongkir.ui.cekresi
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import tam.pa.cekongkir.R
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import tam.pa.cekongkir.databinding.FragmentCekResiBinding
+import tam.pa.cekongkir.localDB.sharedPref.CekOngkirSharedPref
+import tam.pa.cekongkir.localDB.sharedPref._error
+import tam.pa.cekongkir.network.ApiService
+import tam.pa.cekongkir.network.RajaOngkirRepo
+import tam.pa.cekongkir.network.Resource
+import tam.pa.cekongkir.ui.tracking.TrackingActivity
+import tam.pa.cekongkir.ui.tracking.TrackingViewModel
+import tam.pa.cekongkir.ui.tracking.TrackingViewModelFactory
 
 class CekResiFragment : Fragment() {
+    private lateinit var binding: FragmentCekResiBinding
+    private val preferences by lazy { CekOngkirSharedPref( requireActivity() ) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cek_resi, container, false)
+        binding =  FragmentCekResiBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupListener()
+     }
+
+    private fun setupListener() {
+        binding.editWaybill.setOnClickListener {
+            startActivity(Intent( requireActivity(), TrackingActivity::class.java) )
+        }
+    }
+
 }

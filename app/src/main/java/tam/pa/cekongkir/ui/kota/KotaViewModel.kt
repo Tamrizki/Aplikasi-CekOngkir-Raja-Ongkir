@@ -24,9 +24,9 @@ class KotaViewModel(
     }
 
     fun fetchKota() = viewModelScope.launch{
-        val response = repository.fetchKota()
         kotaResponse.value = Resource.Loading()
         try {
+            val response = repository.fetchKota()
             kotaResponse.value = Resource.Success(response.body()!!)
         }catch (e: Exception){
             kotaResponse.value = Resource.Error(e.message.toString())
