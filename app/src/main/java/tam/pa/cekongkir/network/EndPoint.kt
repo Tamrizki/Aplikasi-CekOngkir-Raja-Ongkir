@@ -5,6 +5,7 @@ import retrofit2.http.*
 import tam.pa.cekongkir.network.response.BiayaResponse
 import tam.pa.cekongkir.network.response.DistrikResponse
 import tam.pa.cekongkir.network.response.KotaResponse
+import tam.pa.cekongkir.network.response.TrackingResponse
 
 interface EndPoint {
     @GET("city")
@@ -25,4 +26,11 @@ interface EndPoint {
             @Field("weight" ) weight: String,
             @Field("courier" ) courier: String
     ): Response<BiayaResponse>
+
+    @FormUrlEncoded
+    @POST("waybill" )
+    suspend fun getWayBill(
+            @Field("waybill") waybill: String,
+            @Field("courier") courier: String
+    ): Response<TrackingResponse>
 }

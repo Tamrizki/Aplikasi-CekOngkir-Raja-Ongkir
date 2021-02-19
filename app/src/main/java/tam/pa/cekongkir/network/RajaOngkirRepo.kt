@@ -12,14 +12,18 @@ class RajaOngkirRepo (
 //    disederhanakan menjadi seperti dibawah
     suspend fun fetchKota() = api.getCity()
 
-    suspend fun fetchDistrik(idKota: String) = api.getSubdistrict(idKota)
+    suspend fun fetchDistrik( idKota: String ) = api.getSubdistrict(idKota)
 
-    suspend fun fetchCost(origin: String,
+    suspend fun fetchCost( origin: String,
                           originType: String,
                           destination: String,
                           destinationType: String,
                           weight: String,
-                          courier: String) = api.getCost(origin, originType, destination, destinationType, weight, courier)
+                          courier: String ) = api.getCost(origin, originType, destination, destinationType, weight, courier)
+
+    suspend fun fetchTrack(
+            waybill: String,
+            courier: String ) = api.getWayBill( waybill, courier )
 
     fun savePref(type: String, id: String, name: String){
         when(type){

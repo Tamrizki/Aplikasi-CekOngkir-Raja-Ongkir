@@ -2,11 +2,29 @@ package tam.pa.cekongkir.ui.tracking
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import tam.pa.cekongkir.R
+import androidx.lifecycle.ViewModelProvider
+import tam.pa.cekongkir.databinding.ActivityTrackingBinding
+import tam.pa.cekongkir.localDB.sharedPref.CekOngkirSharedPref
+import tam.pa.cekongkir.network.ApiService
+import tam.pa.cekongkir.network.RajaOngkirRepo
 
 class TrackingActivity : AppCompatActivity() {
+    private val binding by lazy { ActivityTrackingBinding.inflate(layoutInflater) }
+
+    private val api by lazy { ApiService.getClient() }
+    private val preferences by lazy { CekOngkirSharedPref( applicationContext ) }
+    private val repository by lazy { RajaOngkirRepo(api, preferences) }
+    private val cekresofactory by lazy { TrackingViewModelFactory( repository ) }
+    private lateinit var viewmodel: TrackingViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tracking)
+        setContentView(binding.root)
+        setupViewModel()
     }
+
+    private fun setupViewModel() {
+        viewmodel = ViewModelProvider( this, cekresofactory).get(TrackingViewModel::class.java)
+    }
+
 }
