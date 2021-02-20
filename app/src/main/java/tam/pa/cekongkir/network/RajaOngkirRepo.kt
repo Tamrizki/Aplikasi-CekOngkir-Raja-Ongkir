@@ -1,15 +1,15 @@
 package tam.pa.cekongkir.network
 
+import tam.pa.cekongkir.localDB.roomDb.CekOngkirDb
+import tam.pa.cekongkir.localDB.roomDb.CekResiEntity
 import tam.pa.cekongkir.localDB.sharedPref.*
 
 class RajaOngkirRepo (
         private val api: EndPoint,
-        private val pref: CekOngkirSharedPref
+        private val pref: CekOngkirSharedPref,
+        private val db: CekOngkirDb
         ){
-//    suspend fun fetchKota(): Response<KotaResponse>{
-//      return api.getCity()
-//    }
-//    disederhanakan menjadi seperti dibawah
+
     suspend fun fetchKota() = api.getCity()
 
     suspend fun fetchDistrik( idKota: String ) = api.getSubdistrict(idKota)
@@ -44,4 +44,10 @@ class RajaOngkirRepo (
                 PrefModel(destination, pref.getString(prefDestinationId), pref.getString(prefDestinationName))
         )
     }
+
+    suspend fun saveTracking(cekResiEntity: CekResiEntity ){
+        db.cekResiDao().insert( cekResiEntity )
+    }
+
+    fun getTracking() = db.cekResiDao().select()
 }

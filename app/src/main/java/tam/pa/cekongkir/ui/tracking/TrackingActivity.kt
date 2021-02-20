@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import tam.pa.cekongkir.databinding.ActivityTrackingBinding
+import tam.pa.cekongkir.localDB.roomDb.CekOngkirDb
 import tam.pa.cekongkir.localDB.sharedPref.CekOngkirSharedPref
 import tam.pa.cekongkir.network.ApiService
 import tam.pa.cekongkir.network.RajaOngkirRepo
@@ -13,7 +14,8 @@ class TrackingActivity : AppCompatActivity() {
 
     private val api by lazy { ApiService.getClient() }
     private val preferences by lazy { CekOngkirSharedPref( applicationContext ) }
-    private val repository by lazy { RajaOngkirRepo(api, preferences) }
+    private val db by lazy { CekOngkirDb(applicationContext) }
+    private val repository by lazy {  RajaOngkirRepo(api, preferences, db) }
     private val cekresofactory by lazy { TrackingViewModelFactory( repository ) }
     private lateinit var viewmodel: TrackingViewModel
 
