@@ -18,7 +18,7 @@ class TrackingResultAdapter(
 
     override fun onBindViewHolder(holder: vHolder, position: Int) {
         val tracking = listTrack[position]
-        holder.binding.textDate.setText( tracking.manifest_date )
+        holder.binding.textDate.setText( tracking.manifest_date+" "+tracking.manifest_time )
         holder.binding.textDescription.setText( tracking.manifest_description )
     }
 

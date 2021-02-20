@@ -33,24 +33,23 @@ class TrackingResultFragment : Fragment() {
         setupObservable()
     }
 
-
     private fun setupRecyclerview(dataList: List<TrackingResponse.dataRajaOngkir.dataresult.datamanifest>) {
         trackingAdapter = TrackingResultAdapter( dataList )
         binding.listManifest.adapter = trackingAdapter
     }
 
     private fun setupView(dataTrack: TrackingResponse.dataRajaOngkir.dataresult) {
-        binding.textStatus.setText( dataTrack.summary.status )
-        binding.textReceiver.setText( dataTrack.summary.receiver_name )
-        binding.textDate.setText( dataTrack.summary.waybill_date )
+        binding.textStatus.setText( dataTrack.delivery_status.status )
+        binding.textReceiver.setText( dataTrack.delivery_status.pod_receiver )
+        binding.textDate.setText( dataTrack.delivery_status.pod_date+" "+dataTrack.delivery_status.pod_time )
     }
 
     private fun setupObservable() {
         viewModel.trackingResponse.observe(viewLifecycleOwner, Observer {
             when(it){
                 is Resource.Loading ->{
-                    Log.d( "_trackingresponse", "Loading!!" )
                     loading(true)
+                    Log.d( "_trackingresponse", "Loading!!" )
                 }
                 is Resource.Success ->{
                     loading(false)
@@ -67,7 +66,7 @@ class TrackingResultFragment : Fragment() {
     }
 
     private fun loading(load: Boolean){
-        if (load) binding.refreshWaybill.visibility = View.VISIBLE
-        else binding.refreshWaybill.visibility = View.GONE
+        if (load) binding.refreshWaybill.isRefreshing = true
+        else binding.refreshWaybill.isRefreshing = false
     }
 }

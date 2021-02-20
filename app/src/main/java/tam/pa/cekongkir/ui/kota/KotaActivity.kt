@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import tam.pa.cekongkir.R
+import tam.pa.cekongkir.localDB.roomDb.CekOngkirDb
 import tam.pa.cekongkir.localDB.sharedPref.CekOngkirSharedPref
 import tam.pa.cekongkir.network.ApiService
 import tam.pa.cekongkir.network.RajaOngkirRepo
@@ -12,8 +13,9 @@ import tam.pa.cekongkir.network.RajaOngkirRepo
 class KotaActivity : AppCompatActivity(){
     private val api by lazy { ApiService.getClient() }
     private val pref by lazy { CekOngkirSharedPref(this) }
-    private val repository by lazy { RajaOngkirRepo(api, pref) }
-    private val viewModelFactory by lazy { KotaViewModelFactory(repository) }
+    private val db by lazy { CekOngkirDb(applicationContext) }
+    private val repo by lazy {  RajaOngkirRepo(api, pref, db) }
+    private val viewModelFactory by lazy { KotaViewModelFactory(repo) }
     private lateinit var viewModel: KotaViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
