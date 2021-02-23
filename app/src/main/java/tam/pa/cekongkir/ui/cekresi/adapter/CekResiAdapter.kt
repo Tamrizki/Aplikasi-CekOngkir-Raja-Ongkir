@@ -20,12 +20,20 @@ class CekResiAdapter( val listData: ArrayList<CekResiEntity>,
         holder.binding.textCourier.setText( dataResi.courier )
         holder.binding.textStatus.setText( dataResi.status )
         holder.binding.textWaybill.setText( dataResi.resi )
+        holder.binding.container.setOnClickListener {
+            listener.OnClick( dataResi )
+        }
+        holder.binding.container.setOnLongClickListener {
+            listener.OnDelete( dataResi )
+            true
+        }
     }
 
     override fun getItemCount() = listData.size
 
     interface OnAdapterListener{
         fun OnClick(result : CekResiEntity)
+        fun OnDelete(result : CekResiEntity)
     }
 
     fun setData(data: List<CekResiEntity>){

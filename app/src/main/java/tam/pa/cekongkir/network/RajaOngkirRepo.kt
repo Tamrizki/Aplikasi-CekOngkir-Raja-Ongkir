@@ -49,5 +49,9 @@ class RajaOngkirRepo (
         db.cekResiDao().insert( cekResiEntity )
     }
 
+    suspend fun deleteTracking(cekResiEntity: CekResiEntity ){
+        db.cekResiDao().delete( cekResiEntity )
+    }
+
     fun getTracking() = db.cekResiDao().select()
 }

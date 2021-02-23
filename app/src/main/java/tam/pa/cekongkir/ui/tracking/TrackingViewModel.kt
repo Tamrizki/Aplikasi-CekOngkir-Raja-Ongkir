@@ -38,4 +38,12 @@ class TrackingViewModel(
             status = cekResi.result.delivery_status.status
         ))
     }
+
+    fun deleteResi( dataResi : CekResiEntity ) = viewModelScope.launch {
+        repository.deleteTracking( CekResiEntity(
+                resi = dataResi.resi,
+                courier = dataResi.courier,
+                status = dataResi.status
+        ))
+    }
 }

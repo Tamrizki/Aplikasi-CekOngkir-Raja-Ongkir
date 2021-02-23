@@ -29,4 +29,10 @@ class TrackingActivity : AppCompatActivity() {
         viewmodel = ViewModelProvider( this, cekresofactory).get(TrackingViewModel::class.java)
     }
 
+    override fun onBackPressed() {
+//        if (this.intent.getBooleanExtra("is_tracking", false))
+            finish()
+//        else super.onBackPressed()
+    }
+
 }
