@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
 import tam.pa.cekongkir.databinding.ActivityHomeBinding
 import tam.pa.cekongkir.localDB.roomDb.CekOngkirDb
 import tam.pa.cekongkir.localDB.sharedPref.CekOngkirSharedPref
@@ -14,16 +17,12 @@ import tam.pa.cekongkir.ui.biayaOngkir.BiayaViewModelFactory
 import tam.pa.cekongkir.ui.tracking.TrackingViewModel
 import tam.pa.cekongkir.ui.tracking.TrackingViewModelFactory
 
-class HomeActivity : AppCompatActivity(){
-    private val api by lazy { ApiService.getClient() }
-    private val pref by lazy { CekOngkirSharedPref(applicationContext) }
-    private val db by lazy { CekOngkirDb(applicationContext) }
-    private val repo by lazy {  RajaOngkirRepo(api, pref, db) }
-    private val biayaFactory by lazy { BiayaViewModelFactory(repo) }
-    private val trackingFactory by lazy { TrackingViewModelFactory(repo) }
-    private lateinit var biayaViewModel: BiayaViewModel
+class HomeActivity : AppCompatActivity(), KodeinAware{
+    override val kodein by closestKodein()
 
     private val binding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
+    private val biayaFactory: BiayaViewModelFactory by instance()
+    private val trackingFactory: TrackingViewModelFactory by instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +32,7 @@ class HomeActivity : AppCompatActivity(){
     }
 
     private fun setupViewModel() {
-        biayaViewModel = ViewModelProvider(this, biayaFactory).get(BiayaViewModel::class.java)
+        ViewModelProvider(this, biayaFactory).get(BiayaViewModel::class.java)
         ViewModelProvider(this, trackingFactory).get(TrackingViewModel::class.java)
     }
 

@@ -3,22 +3,22 @@ package tam.pa.cekongkir.ui.tracking
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
 import tam.pa.cekongkir.databinding.ActivityTrackingBinding
 import tam.pa.cekongkir.localDB.roomDb.CekOngkirDb
 import tam.pa.cekongkir.localDB.sharedPref.CekOngkirSharedPref
 import tam.pa.cekongkir.network.ApiService
 import tam.pa.cekongkir.network.RajaOngkirRepo
 
-class TrackingActivity : AppCompatActivity() {
+class TrackingActivity : AppCompatActivity(), KodeinAware {
+    override val kodein by closestKodein()
     private val binding by lazy { ActivityTrackingBinding.inflate(layoutInflater) }
 
-    private val api by lazy { ApiService.getClient() }
-    private val preferences by lazy { CekOngkirSharedPref( applicationContext ) }
-    private val db by lazy { CekOngkirDb(applicationContext) }
-    private val repository by lazy {  RajaOngkirRepo(api, preferences, db) }
-    private val cekresofactory by lazy { TrackingViewModelFactory( repository ) }
+    private val cekresofactory: TrackingViewModelFactory by instance()
     private lateinit var viewmodel: TrackingViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -32,5 +32,4 @@ class TrackingActivity : AppCompatActivity() {
     override fun onBackPressed() {
             finish()
     }
-
 }

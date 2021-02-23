@@ -4,18 +4,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
 import tam.pa.cekongkir.R
 import tam.pa.cekongkir.localDB.roomDb.CekOngkirDb
 import tam.pa.cekongkir.localDB.sharedPref.CekOngkirSharedPref
 import tam.pa.cekongkir.network.ApiService
 import tam.pa.cekongkir.network.RajaOngkirRepo
 
-class KotaActivity : AppCompatActivity(){
-    private val api by lazy { ApiService.getClient() }
-    private val pref by lazy { CekOngkirSharedPref(this) }
-    private val db by lazy { CekOngkirDb(applicationContext) }
-    private val repo by lazy {  RajaOngkirRepo(api, pref, db) }
-    private val viewModelFactory by lazy { KotaViewModelFactory(repo) }
+class KotaActivity : AppCompatActivity(), KodeinAware{
+
+    override val kodein by closestKodein()
+    private val viewModelFactory: KotaViewModelFactory by instance()
     private lateinit var viewModel: KotaViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
