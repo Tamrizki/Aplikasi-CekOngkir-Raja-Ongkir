@@ -38,13 +38,13 @@
                 android:layout_marginTop="5dp"
                 tools:ignore="HardcodedText" />
 
-            <com.google.android.material.button.MaterialButton
-                android:theme="@style/Theme.MaterialComponents.Light"
+            <Button
                 android:id="@+id/button_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="CEK ONGKOS KIRIM"
                 app:cornerRadius="10dp"
+                android:background="@color/purple_700"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_destination"
                 android:layout_marginTop="10dp"
